@@ -1,0 +1,527 @@
+/* Author : Dhuta Pratama - 25 Des 2015 */
+/* IMME Apps Web Dev */
+
+
+/* Global CSS */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700);
+body {
+  font-family: 'Raleway', 'Montserrat', sans-serif;
+}
+
+a, a:hover, a:focus, *:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+/* Header */
+
+.header {
+	height: 5em;
+  background: rgba(255, 255, 255, .85);
+  z-index: 4;
+  border-bottom: 1px solid #aaa;
+}
+
+.header-logo {
+  height: 2em;
+  padding-right: 1em;
+}
+
+.header-menu-first {
+  height: 5em;
+  padding-top: 1em;
+}
+
+.header-menu-first > li, .header-menu-secondary > li {
+  padding: .5em;
+  vertical-align: middle;
+}
+
+.header-menu-first > li > a, .header-menu-secondary > li > a {
+  color: #555;
+  transition: .5s;
+}
+
+
+.header-menu-first > li :hover {
+  color: #18cd8f;
+}
+
+.header-menu-secondary > li :hover {
+  color: #00aeff;
+}
+
+.header-menu-secondary {
+  height: 5em;
+  padding-top: 1.2em;
+}
+
+/* Slider */
+.slider {
+  background: url(../images/mycoin-bg.jpg);
+  background-size: cover;
+}
+
+.slider-text {
+  text-shadow: 1px 1px 2px #331F04;
+  color: #ECECEC;
+  padding-top: 2em;
+  padding-bottom: 4em;
+}
+
+.slider-title {
+  font-weight: 600;
+}
+
+.slider-desc{
+  font-size: 1.25em;
+}
+
+.slider-calculator {
+  background: rgba(0, 0, 0, .8);
+  border-radius: 0.4em;
+  color: #EEE;
+  margin-bottom: 4em;
+}
+
+.sc-title {
+  font-size: 2em;
+  padding-top: 1em;
+}
+
+.sc-desc {
+  padding-bottom: 1em;
+  font-size: 1em;
+}
+
+.sc-benefit {
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.sc-form {
+  font-size: .95em;
+}
+
+.jcf-radio {
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	cursor: default;
+  border: 1px solid #FFF;
+	margin: 0 10px 0 0;
+	height: 20px;
+	width: 20px;
+}
+
+.jcf-radio span {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	background: #FFF;
+	display: none;
+}
+
+.jcf-radio input[type="radio"] {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	border: 0;
+	margin: 0;
+	left: 0;
+	top: 0;
+}
+
+.jcf-radio.jcf-checked span {
+	display: block;
+}
+
+.hr-sparator{
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.wallet {
+  background: url(../images/coins.png) #0093D7;
+  background-repeat: no-repeat;
+  background-position: .3em 9.3em;
+  background-size: 4em;
+  height: 185px;
+  border-radius: 0.3125em;
+}
+
+.wallet-header {
+  background: #fff;
+  color: #444;
+  padding-top: .5em;
+  padding-bottom: .5em;
+  margin-bottom: 1.3em;
+  font-size: 1.3em;
+  border-top-left-radius: 0.3125em;
+  border-top-right-radius: 0.3125em;
+}
+
+.wallet > span {
+  font-size: 1.1em;
+}
+
+.imme-apps {
+  background-image: url(../images/imme-apps.png);
+  background-size: cover;
+  height: 185px;
+  border-radius: 0.3125em;
+}
+
+.inapps-money {
+  padding-top: 6.2em;
+  position: inherit;
+}
+
+.inapps-rp {
+  display: inline-block;
+  position: absolute;
+  margin-top: 1em;
+  font-size: 1em;
+}
+
+.inapps-balance {
+  font-size: 3em;
+  display: inline-block;
+  margin-left: .5em;
+}
+
+.inapps-suggest {
+  font-size: .9em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.sc-note {
+  padding-top: 1.5em;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+.separator-blue {
+  background-color: #00aeff;
+}
+
+.test-apps {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.test-imme {
+  display: inline-block;
+  color: #fff;
+  font-size: 2em;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.white-button {
+  background: none;
+  border-color: #eee;
+  border-width: 2px;
+  margin-left: 1em;
+  color: #eee;
+  vertical-align: middle;
+}
+
+.white-button:hover, .white-button:active:focus, .white-button:focus {
+  background: rgba(255, 255, 255, .2);
+  border-color: #eee;
+  border-width: 2px;
+  color: #fff;
+}
+
+.download {
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+/* Content */
+.content {
+  padding-top: 4em;
+  padding-bottom: 4em;
+}
+
+.cont-top {
+  padding-top: 10em;
+  padding-bottom: 10em;
+}
+
+.cd-phone-frame {
+  /* Phone in CSS */
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 180px;
+  height: 320px;
+  border-color: #2f3246;
+  border-style: solid;
+  border-width: 45px 10px;
+  border-radius: 2.5em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cd-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.video {
+  width: 180px;
+}
+
+/* Container 2 */
+.content2 {
+  background: #EDEDED;
+}
+
+.content-desc {
+  height: 8em;
+}
+
+.apps-privacy {
+  padding-top: 2em;
+}
+
+/* Vote Location */
+.vote-location {
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 1em;
+  border: solid 1px #00aeff;
+}
+
+.white-standard-link {
+  color: #fff;
+  text-decoration: underline;
+  
+}
+
+.white-standard-link:hover {
+  color: #fff;
+}
+
+.vote-result {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1.2em;
+}
+
+.img-loading {
+  padding: 1em;
+  border-radius: 1em;
+  background: #fff;
+}
+
+/* Footer */
+.content-footer {
+  padding-top: 2em;
+  padding-bottom: 1.2em;
+}
+
+.footer {
+  background-color: #18cd8f;
+  color: #fff;
+  padding-bottom: 2em;
+  padding-top: 2em;
+}
+
+.store > li > img {
+  border-radius: 10px;
+  border: #fff solid 2px;
+}
+
+.social-icons {
+  padding-bottom: .5em;
+}
+
+.social {
+  color: #00aeff;
+  transition: .5s;
+}
+
+.social-link {
+}
+
+.social-link :hover {
+  color: #18cd8f;
+}
+
+.f-copy {
+  font-family: sans-serif;
+}
+
+/* Try Now */
+.section-1 {
+  background: url(../images/section-1-bg.jpg);
+  background-size: cover;
+  color: #fff;
+  height: 48em;
+}
+
+.try-menu {
+  height: 7em;
+  padding-top: 2em;
+}
+
+.try-menu > li, .try-menu-user > li {
+  padding: .5em;
+  vertical-align: middle;
+}
+
+.try-menu > li > a, .try-menu-user > li > a {
+  color: #fff;
+  transition: .5s;
+}
+
+.try-menu > li :hover {
+  color: #18cd8f;
+}
+
+.try-menu-user > li :hover {
+  color: #00aeff;
+}
+
+.try-menu-user {
+  height: 7em;
+  padding-top: 2.2em;
+}
+
+.section1-container {
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+
+.try-title {
+  font-weight: 100;
+  font-size: 4em;
+}
+
+.try-desc {
+  font-weight: 300;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.btn-get-beta-app, .btn-get-beta-app:focus {
+  background: transparent;
+  color: #fff;
+  padding: .8em 2em .8em 2em;
+  font-weight: 600;
+  border: #fff solid 2px;
+  transition: .5s;
+}
+
+.btn-get-beta-app:hover {
+  border: #666 solid 2px;
+  background: #fff;
+  color: #666;
+  transition: .5s;
+}
+
+.btn-get-beta-app:active:focus {
+  background: #666;
+  color: #fff;
+  transition: .5s;
+}
+
+.scan-title {
+  font-weight: 100;
+}
+
+.voucher-image {
+  border-radius: 10px;
+}
+
+.white {
+ color: #fff;
+}
+
+/* Section 2 */
+
+.section-2 {
+  padding-top: 5em;
+  padding-bottom: 5em;
+  background-color: #00aeff;
+}
+
+.section-title {
+  font-size: 3em;
+  font-weight: 100;
+  padding-bottom: 1em;
+  padding-top: 2em;
+}
+
+.section-description {
+  font-weight: 200;
+  font-size: 1.5em;
+}
+
+.section-note {
+  padding-top: 1em;
+  font-weight: 200;
+}
+
+/* Section 3 */
+
+.section-3 {
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+.section-title-3 {
+  font-size: 3em;
+  font-weight: 200;
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
+
+.section-description-3 {
+  font-weight: 300;
+  font-size: 1.5em;
+}
+
+.section-note-3 {
+  padding-top: 1em;
+  font-weight: 400;
+}
+
+.contact-us {
+  margin-bottom: 1em;
+}
+
+.contact-us-title {
+  font-size: 3em;
+  font-weight: 100;
+}
+
+.section4 {
+  background-color: #18cd8f;
+  color: #fff;
+  padding-bottom: 4em;
+  padding-top: 2em;
+}
+
+/* Modal Theme */
+.modal-header {
+  background: #00aaff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #fff;
+}
+
+.modal-footer {
+  background-color: #18cd8f;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
