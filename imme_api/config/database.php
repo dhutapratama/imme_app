@@ -46,3 +46,29 @@ $db['gammu'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+$db['rufi'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'u792852607_imme',
+	'password' => 'immeapps',
+	'database' => 'u792852607_imme',
+	'dbdriver' => 'mysql',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => FALSE
+);
+
+if ($_SERVER['HTTP_HOST'] == 'rufi.hol.es' || $_SERVER['HTTP_HOST'] == 'www.rufi.hol.es') {
+	$db['default'] = $db['rufi'];
+}
