@@ -56,22 +56,8 @@ $config['directory_trigger']	= 'd';
 |
 */
 
-if ($_SERVER['HTTP_HOST'] == 'api.imme.app') {
-	$config['log_threshold'] 	= 4;
-	$config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlViLaVM';
-} elseif ($_SERVER['HTTP_HOST'] == 'api1.imme.asia') {
-	$config['log_threshold'] 	= 1;
-	$config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlViLaVM';
-}  elseif ($_SERVER['HTTP_HOST'] == 'api3.imme.asia') {
-	$config['log_threshold'] 	= 0;
-	$config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlViLaVM';
-}  elseif ($_SERVER['HTTP_HOST'] == 'imme.freevar.com') {
-	$config['log_threshold'] 	= 0;
-	$config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlViLaVM';
-} else {
-	echo 'Please contact our support at dhuta.pratama@imme.asia : config';
-	exit();
-}
+$config['log_threshold'] 	= 4;
+$config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlVDHUTA';
 
 $config['log_path']				= '';
 $config['log_file_extension']	= '';

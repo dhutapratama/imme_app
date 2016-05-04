@@ -4,58 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Api extends CI_Controller {
 	public function index()
 	{
-		/*
-		if ($this->input->get('request_code') == '1000') {
-			// Acknowledgement
-			$this->load->model('apps_version');
-			$this->load->model('devices');
-			$this->_not_logged_acknowledgement();
-		} else {
-			switch ($this->input->post('request_code')) {
-				case '1001':
-					// Customer Registration
-				break;
-
-				case '1002':
-					// Customer Login
-				break;
-
-				case '1004':
-					// Customer Logout
-					$this->load->model(array('login_sessions'));
-					$this->_logout();
-				break;
-
-				case '1005':
-					// Request Money
-				break;
-
-				case '1006':
-					// Check Transaction Session
-				break;
-
-				case '1007':
-					// Send Money
-					$this->load->model(array('login_sessions', 'security_algorithm', 'transaction_sessions'));
-					$security = $this->_security_transaction_check();
-					$this->_receive($security);
-				break;
-				
-				case '9898':
-					$this->load->model(array('login_sessions', 'security_algorithm', 'transaction_sessions', 'balances', 'transaction_pending', 'transactions', 'accounts'));
-					//$security = $this->_security_transaction_check();
-					//$this->_testing($security);
-					$this->_testing();
-				break;
-
-				default:
-					$this->_error('104', 'Error request code');
-					break;
-			}
-		}
-		*/
-		$this->load->helper('url');
-		redirect("http://imme.asia/", 'refresh', 302);
+		echo "IMME Server 2016";
 	}
 
 
@@ -235,22 +184,5 @@ class Api extends CI_Controller {
 		} else {
 			$this->_error('106', 'Logout Error');
 		}
-	}
-
-	
-	private function _receive($security_data) {
-	}
-
-	
-	private function _check_transaction_session() {
-		
-	}
-
-	 
-	private function _send($security_data = '') 
-	{
-		
-
-		// FUTURE PENDING CHECK
 	}
 }

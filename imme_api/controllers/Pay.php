@@ -428,6 +428,117 @@ class Pay extends CI_Controller {
 		$this->_feedback($feedback);
 	}
 
+	public function transfer() {
+		$this->load->library('secure');
+		//$this->load->model(array('customers', 'accounts'));
+
+		$api_param = array('search_id' => 'Recipient', 'amount' => 'Amount', 'message' => 'message', 'pin_1' => 'PIN 1');
+		$data = $this->secure->auth_account($api_param);
+
+		$account_data = $this->accounts->select_by_id($data['login_data']->account_id);
+		if (!$account_data) {
+			$this->_error('-', 'Your account is not active');
+		}
+
+
+		$account_data = $this->accounts->match_pin1_by_id($data['login_data']->account_id, md5($data['pin_1']));
+		if (!$account_data) {
+			$this->_error('113', 'PIN 1 Error');
+		}
+
+		$customer_data = $this->customers->select_by_search_id($data['search_id']);
+		if (!$customer_data) {
+			$this->_error('-', 'Payee customer error');
+		}
+
+		$payer_balance_data = $this->balances->select_by_customer_id($data['login_data']->customer_id);
+		$payee_balance_data = $this->balances->select_by_customer_id($customer_data[0]->customer_id);
+
+		$transaction_code = md5(time().rand(11111, 999999));
+
+		if ($payer_balance_data[0]->in_transaction OR $payee_balance_data[0]->in_transaction) {
+			$transaction_date = date('Y-m-d H:i:s');
+			$insert_pending = array(
+			        array(
+			                'transaction_code'		=> $transaction_code,
+			                'transaction_date'		=> $transaction_date,
+			                'last_processed_date'	=> $transaction_date,
+			                'customer_id'			=> $payer_balance_data[0]->customer_id,
+			                'account_id'			=> $payer_balance_data[0]->account_id,
+			                'balance_id'			=> $payer_balance_data[0]->balance_id,
+			                'amount'				=> $data['amount'],
+			                'transaction_type_id'	=> 2,
+			                'transaction_status_id'	=> 3
+			        ),
+			        array(
+			                'transaction_code'		=> $stransaction_code,
+			                'transaction_date'		=> $transaction_date,
+			                'last_processed_date'	=> $transaction_date,
+			                'customer_id'			=> $payee_balance_data[0]->customer_id,
+			                'account_id'			=> $payee_balance_data[0]->account_id,
+			                'balance_id'			=> $payee_balance_data[0]->balance_id,
+			                'amount'				=> $data['amount'],
+			                'transaction_type_id'	=> 1,
+			                'transaction_status_id'	=> 3
+			        )
+				);
+			$this->transaction_pending->insert_batch($insert_pending);
+			
+			$feedback['error']		= false;
+			$feedback['message']	= "Transaction pending";
+			$feedback['reference']	= $transaction_reference;
+			$this->_feedback($feedback);
+		}
+
+		$payer_update['balance'] = $payer_balance_data[0]->balance - $data['amount']; // Belum ada pengurangan fee transaksi
+		$payee_update['balance'] = $payee_balance_data[0]->balance + $data['amount'];
+
+		if ($payer_update['balance'] < 0) {
+			$this->_error('112', 'Insufficient balance');
+		}
+
+		$this->balances->in_transaction($payer_balance_data[0]->balance_id, $payee_balance_data[0]->balance_id);
+
+		$this->balances->update_by_id($payer_balance_data[0]->balance_id, $payer_update);
+		$this->balances->update_by_id($payee_balance_data[0]->balance_id, $payee_update);
+
+		$this->balances->close_transaction($payer_balance_data[0]->balance_id, $payee_balance_data[0]->balance_id);
+
+		$transaction_date = date('Y-m-d H:i:s');
+		$transaction_reference = md5(time().rand('1000000', '99999999'));
+		$insert_transaction = array(
+			        array(
+			                'customer_id'			=> $payer_balance_data[0]->customer_id,
+			                'account_id'			=> $payer_balance_data[0]->account_id,
+			                'balance_id'			=> $payer_balance_data[0]->balance_id,
+			                'amount'				=> $data['amount'],
+			                'transaction_type_id'	=> 2,
+			                'balance'				=> $payer_update['balance'],
+			                'transaction_date'		=> $transaction_date,
+			                'transaction_reference'	=> $transaction_reference,
+			                'transaction_status_id'	=> 2
+
+			        ),
+			        array(
+			                'customer_id'			=> $payee_balance_data[0]->customer_id,
+			                'account_id'			=> $payee_balance_data[0]->account_id,
+			                'balance_id'			=> $payee_balance_data[0]->balance_id,
+			                'amount'				=> $data['amount'],
+			                'transaction_type_id'	=> 1,
+			                'balance'				=> $payee_update['balance'],
+			                'transaction_date'		=> $transaction_date,
+			                'transaction_reference'	=> $transaction_reference,
+			                'transaction_status_id'	=> 2
+			        )
+				);
+		$this->transactions->insert_batch($insert_transaction);
+
+		$feedback['error']					= false;
+		$feedback['data']['balance']				= $payer_update['balance'];
+		$feedback['data']['transaction_reference']	= $transaction_reference;
+		$this->_feedback($feedback);
+	}
+
 
 	private function _error($code = '100', $message = 'Unknown error')
 	{

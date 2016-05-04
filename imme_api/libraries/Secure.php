@@ -256,15 +256,16 @@ class Secure {
 		// Validate input process
 		if (!$CI->form_validation->run()) {
 			$error_field = '';
-			$error_count = count($this->form_validation->error_array());
-			foreach ($this->form_validation->error_array() as $value) {
-				if ($i < $error_count - 1) {
-					$error_sparator = ",";
-				} else {
-					$error_sparator = ".";				}
-				$error_field = $error_field . " " . $value . $error_sparator;
-			}
-			$this->_error('-', 'Required : ' . $error_field);
+			//$error_count = count($this->form_validation->error_array());
+			//foreach ($this->form_validation->error_array() as $value) {
+			//	if ($i < $error_count - 1) {
+			//		$error_sparator = ",";
+			//	} else {
+			//		$error_sparator = ".";				}
+			//	$error_field = $error_field . " " . $value . $error_sparator;
+			//}
+			//$this->_error('-', 'Required : ' . $error_field);
+			$this->_error('-', 'There some missing input');
 			exit();
 		}
 

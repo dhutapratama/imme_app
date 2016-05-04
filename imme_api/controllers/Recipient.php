@@ -38,8 +38,8 @@ class Recipient extends CI_Controller {
 			foreach ($recipient_list as $value) {
 				$recipient = $this->customers->select_by_search_id($value->search_id);
 				$feedback['recipient_list'][$i]['name']			= $recipient[0]->full_name;
+				$feedback['recipient_list'][$i]['picture_url']	= $recipient[0]->picture_url;
 				$feedback['recipient_list'][$i]['search_id']	= $value->search_id;
-				// User Picture belum dimasukan
 				$i++;
 			}
 		}
@@ -73,9 +73,10 @@ class Recipient extends CI_Controller {
 		}
 
 
-		$feedback['error'] 		= false;
-		$feedback['name']		= $recipient[0]->full_name;
-		$feedback['search_id']	= $recipient[0]->search_id;
+		$feedback['error'] 		 = false;
+		$feedback['name']		 = $recipient[0]->full_name;
+		$feedback['picture_url'] = $recipient[0]->picture_url;
+		$feedback['search_id']	 = $recipient[0]->search_id;
 
 		$availability = $this->recipient_lists->select_recipient_by_search_id($login_data[0]->customer_id, $recipient[0]->search_id);
 		if ($availability || ($recipient[0]->customer_id == $login_data[0]->customer_id)) {
@@ -154,7 +155,7 @@ class Recipient extends CI_Controller {
 		$availability = $this->recipient_lists->select_recipient_by_search_id($login_data[0]->customer_id, $search_id);
 		if ($availability || ($recipient_lookup[0]->customer_id == $login_data[0]->customer_id)) {
 			$feedback['name']			= $recipient_lookup[0]->full_name;
-			// Profile Picture
+			$feedback['picture_url']	= $recipient_lookup[0]->picture_url;
 		} else {
 			$this->_error('-', 'Cannot get account data');
 		}

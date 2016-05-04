@@ -16,30 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * [tba_algorithm]
  * [cba_algorithm]
  * [cba_counter]
- * 
- * [account][balance]
- * [account][account_number]
- * [account][full_name]
- * [account][picture_url]
- * [account][email]
- * [account][phone_number]
- * [account][idcard_number]
- * [account][idcard_type]
- * [account][is_verified_email]
- * [account][is_verified_phone]
- * [account][referral_code]
- *
- * [transaction_history][0][transaction_number]
- * [transaction_history][0][date]
- * [transaction_history][0][merchant_name]
- * [transaction_history][0][amount]
- * [transaction_history][0][transaction_type]
- *
- * [security_setting][track_transaction]
- * [security_setting][color_security]
  */
 
-class Error extends CI_Controller {
+class Login extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model(array('customers', 'accounts', 'balances', 'login_sessions', 'settings', 'transactions', 'security_algorithm'));
@@ -84,56 +63,32 @@ class Error extends CI_Controller {
 			$login_session['public_ip']				= $_SERVER['REMOTE_ADDR'];
 			$this->login_sessions->insert($login_session);
 
-			$feedback['error']			= false;
-			$feedback['message']	= 'You are logged in';
+			$feedback['error']					= false;
+			$feedback['data']['session_key']	= $login_session['session_key'];
+
 			//$feedback['csrf_token']		= $this->security->get_csrf_hash();
-			$feedback['session_key']	= $login_session['session_key'];
-			$feedback['imme_algorithm']	= $security_algorithm[0]->imme_algorithm; // Must encrypted before send to client
-			$feedback['tba_algorithm']	= $security_algorithm[0]->tba_algorithm; // Must encrypted before send to client
-			$feedback['cba_algorithm']	= $security_algorithm[0]->cba_algorithm; // Must encrypted before send to client
-			$feedback['cba_counter']	= $security_algorithm[0]->cba_counter; // Must encrypted before send to client
-
-			$account_data = $this->accounts->select_by_id($balance_data[0]->account_id);
-			$feedback['account']['balance']				= $balance_data[0]->balance;
-			$feedback['account']['account_number']		= $account_data[0]->account_number;
-			$feedback['account']['full_name']			= $customer_data[0]->full_name;
-			$feedback['account']['picture_url']			= $customer_data[0]->picture_url;
-			$feedback['account']['email']				= $customer_data[0]->email;
-			$feedback['account']['phone_number']		= $customer_data[0]->phone_number;
-			$feedback['account']['idcard_number']		= $customer_data[0]->idcard_number;
-			$feedback['account']['idcard_type']			= $customer_data[0]->idcard_type_id;
-			$feedback['account']['is_verified_email']	= $customer_data[0]->is_email_verified;
-			$feedback['account']['is_verified_phone']	= $customer_data[0]->is_phone_verified;
-			$feedback['account']['referral_code']		= $customer_data[0]->referral_code;
-
-			$transaction_data = $this->transactions->select_by_id($customer_data[0]->customer_id);
-			$i = 0;
-			foreach ($transaction_data as $value) {
-				$feedback['transaction_history'][$i]['transaction_reference']	= $value->transaction_reference;
-				$feedback['transaction_history'][$i]['date']					= $value->transaction_date;
-
-				$history = $this->transactions->select_by_transaction_reference($value->transaction_reference);
-				foreach ($history as $value_history) {
-					if ($value_history->transaction_type_id != $value->transaction_type_id) {
-						$history_name = $this->customers->select_by_id($value_history->customer_id);
-						$feedback['transaction_history'][$i]['name'] = $history_name[0]->full_name;
-					}
-				}
-
-				$feedback['transaction_history'][$i]['amount']					= $value->amount;
-				$feedback['transaction_history'][$i]['transaction_type']		= $value->transaction_type_id;
-				$i++;
-			}
-
-			$feedback['security_setting']['track_transaction']	= $setting_data[0]->track_transaction;
-	 		$feedback['security_setting']['color_security']		= $setting_data[0]->color_security;
-	 
-	 		$feedback['gift_voucher'] = false;
+			//$feedback['imme_algorithm']	= $security_algorithm[0]->imme_algorithm; // Must encrypted before send to client
+			//$feedback['tba_algorithm']	= $security_algorithm[0]->tba_algorithm; // Must encrypted before send to client
+			//$feedback['cba_algorithm']	= $security_algorithm[0]->cba_algorithm; // Must encrypted before send to client
+			//$feedback['cba_counter']		= $security_algorithm[0]->cba_counter; // Must encrypted before send to client
 
 			$this->_feedback($feedback);
 		} else {
 			$this->_error('115', 'Wrong password');
 		}
+	}
+
+	function session_check() {
+		$this->load->library('secure');
+		//$this->load->model(array('customers', 'accounts'));
+
+		$api_param = array();
+		$data = $this->secure->auth_account($api_param);
+		
+		$feedback['error'] 				= false;
+		$feedback['data']['message']	= "Welcome Back!";
+
+		$this->_feedback($feedback);
 	}
 
 	private function _error($code = '100', $message = 'Unknown error')

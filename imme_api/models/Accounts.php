@@ -3,80 +3,66 @@
 /*
 $accounts['account_id']
 $accounts['customer_id']
+$accounts['merchant_id']
 $accounts['account_number']
-$accounts['pin_1']
-$accounts['pin_2']
-$accounts['pin_3']
-$accounts['account_type_id']
-$accounts['account_card_type_id']
-$accounts['is_freezed']
-$accounts['created_date']
-$accounts['updated_date']
+$accounts['pin']
+$accounts['balance']
+$accounts['in_transaction']
 */
 
-class accounts extends CI_Model {
+class Accounts extends CI_Model {
 
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct();
 	}
 
-	public function insert($data = array())
-	{
+	public function insert($data = array()) {
 		$query = $this->db->insert('imme_accounts', $data);
 		return $query;
 	}
 
-	public function select()
-	{
+	public function get() {
 		$query = $this->db->get('imme_accounts');
 		return $query->result();
 	}
 
-	public function delete($id = '')
-	{
-		$query = $this->db->delete('imme_accounts')
-				->where('account_id', $id);
-		return $query;
+	public function delete($account_id = '') {
+		$this->db->where('account_id', $account_id);
+		$this->db->delete('imme_accounts');
 	}
 
-	public function select_by_id($id = '')
-	{
+	public function get_by_id($account_id = '') {
 		$query = $this->db->select('*')->from('imme_accounts')
-				->where('account_id', $id)
+				->where('account_id', $account_id)
 				->get();
-		return $query->result();
+		return $query->row();
 	}
 
-	public function update_by_id($id = '', $data = array())
-	{
-		$this->db->where('account_id', $id);
+	public function update($account_id = '', $data = array()) {
+		$this->db->where('account_id', $account_id);
 		$query = $this->db->update('imme_accounts', $data);
 		return $query;
 	}
 
-	public function select_by_customer_id($customer_id = '')
-	{
+	public function get_by_customer_id($customer_id = '') {
 		$query = $this->db->select('*')->from('imme_accounts')
 				->where('customer_id', $customer_id)
 				->get();
-		return $query->result();
+		return $query->row();
 	}
 
-	public function select_by_merchant_id($merchant_id = '')
-	{
+	public function get_by_merchant_id($merchant_id = '') {
 		$query = $this->db->select('*')->from('imme_accounts')
 				->where('merchant_id', $merchant_id)
 				->get();
-		return $query->result();
+		return $query->row();
 	}
 
-	public function match_pin1_by_id($id = '', $pin_1)
-	{
+	public function match_pin_by_id($account_id = '', $pin) {
 		$query = $this->db->select('*')->from('imme_accounts')
-				->where('account_id', $id)
-				->where('pin_1', $pin_1)
+				->where('account_id', $account_id)
+				->where('pin', md5($pin))
 				->get();
-		return $query->result();
+		return $query->row();
 	}
 }

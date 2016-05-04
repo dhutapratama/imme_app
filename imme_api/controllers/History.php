@@ -53,13 +53,50 @@ class History extends CI_Controller {
 			}
 			
 			$feedback['transactions'][$i]['reference']	= $value->transaction_reference;
-			$feedback['transactions'][$i]['amount'] 	= $value->amount;
+			$feedback['transactions'][$i]['amount'] 	= number_format($value->amount, 0, ",", ".");
 			$feedback['transactions'][$i]['type']		= $value->transaction_type_id;
-			$feedback['transactions'][$i]['balance']	= $value->balance;
-			$feedback['transactions'][$i]['date']		= $value->transaction_date;
+			$feedback['transactions'][$i]['balance']	= number_format($value->balance, 0, ",", ".");
+			$feedback['transactions'][$i]['date']		= date("d M Y H:i", strtotime($value->transaction_date));
 			$feedback['transactions'][$i]['status']		= $value->transaction_status_id;
 			$i++;
 		}
+
+		$this->_feedback($feedback);
+	}
+
+	public function transaction_detail() {
+		$this->load->library('secure');
+		$this->load->model(array('transaction_types'));
+
+		$api_param = array('reference' => 'Reference Number');
+		$data = $this->secure->auth_account($api_param);
+
+		$transaction 	= $this->transactions->select_vs_by_transaction_reference($data['reference'], $data['login_data']->customer_id);
+		if (!$transaction) {
+			$this->_error('-', 'This is not your transaction');
+		}
+
+		if ($transaction[0]->merchant_id == "") {
+			// User
+			$name = $this->customers->select_by_id($transaction[0]->customer_id);
+			$feedback['data']['name'] 			= $name[0]->full_name;
+			$feedback['data']['picture_url'] 	= $name[0]->picture_url;
+		} else {
+			// Merchant
+			$name = $this->merchants->select_by_id($transaction[0]->merchant_id);
+			$feedback['data']['name'] 			= $name[0]->merchant_name;
+			$feedback['data']['picture_url'] 	= $name[0]->picture_url;
+		}
+
+		$transaction_type 	= $this->transaction_types->select_by_id($transaction[0]->transaction_type_id);
+
+		$feedback['error'] 				= false;
+		$feedback['data']['reference']	= $transaction[0]->transaction_reference;
+		$feedback['data']['amount'] 	= "Rp" . number_format($transaction[0]->amount, 0, ",", ".");
+		$feedback['data']['type']		= $transaction_type[0]->transaction_type_name;
+		$feedback['data']['balance']	= "Rp" . number_format($transaction[0]->balance, 0, ",", ".");
+		$feedback['data']['date']		= date("d M Y H:i", strtotime($transaction[0]->transaction_date));
+		$feedback['data']['status']		= $transaction[0]->transaction_status_id;
 
 		$this->_feedback($feedback);
 	}

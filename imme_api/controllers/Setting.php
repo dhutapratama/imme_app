@@ -231,14 +231,21 @@ class Setting extends CI_Controller {
 		$api_param = array(
 			'full_name' => 'Full Name',
 			'email' => 'Email',
-			'phone_number' => 'Phone Number' );
+			'phone_number' => 'Phone Number',
+			'pin2' => 'PIN 2' );
 		$data = $this->secure->auth_account($api_param);
+
+		$account_data = $this->accounts->select_by_id($data['login_data']->account_id);
+		if ($account_data[0]->pin_2 != md5($data['pin2'])) {
+			$this->_error('-', 'Wrong PIN 2');
+		}
 		
 		$customers['full_name']		= $data['full_name'];
 		$customers['email']			= $data['email'];
 		$customers['phone_number']	= $data['phone_number'];
 		$this->customers->update_by_id($data['login_data']->customer_id, $customers);
 		
+
 		$feedback['error'] 				= false;
 		$feedback['data']['message']	= "Success saving your account";
 
