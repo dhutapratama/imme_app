@@ -72,7 +72,7 @@ class V1_customer extends CI_Controller {
 			$accounts['merchant_id']	= 0;
 			$accounts['account_number']	= 10000 + $customers_data->customer_id;
 			$accounts['pin']			= 0;
-			$accounts['balance']		= 20000;
+			$accounts['balance']		= 20;
 			$accounts['in_transaction']	= 0;
 			$this->accounts->insert($accounts);
     	} else {
@@ -157,7 +157,7 @@ class V1_customer extends CI_Controller {
 			$this->write->error("Your account was deleted");
 		}
 
-		$feedback['data']['balance'] 			= "Rp ".number_format($accounts_data->balance, 0, '', '.');
+		$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ko";
 		$feedback['data']['search_id'] 			= $customers_data->search_id;
 		$feedback['data']['search_id_image'] 	= "http://imme.duckdns.org/search_id/".$customers_data->search_id.".png";
     	$feedback['data']['is_phone_verified']	= $customers_data->is_phone_verified;
@@ -198,7 +198,7 @@ class V1_customer extends CI_Controller {
 			$transaction_type_data = $this->transaction_types->get_by_id($value->transaction_type_id);
 
 			$transaction[$i]['type']			= $transaction_type_data->name;
-			$transaction[$i]['amount']			= "Rp ".number_format($value->amount, 0, '', '.');
+			$transaction[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ko";
 			$transaction[$i]['description']		= $value->description;
 			$transaction[$i]['date']			= date("d M Y", strtotime($value->transaction_date));
 			$transaction[$i]['referrence_code']	= $value->transaction_referrence;
@@ -222,7 +222,7 @@ class V1_customer extends CI_Controller {
 			$merchants_data = $this->merchants->get_by_id($value->merchant_id);
 			$payment[$i]['merchant_name']	= $merchants_data->name;
 			$payment[$i]['description']		= $value->description;
-			$payment[$i]['amount']			= "Rp ".number_format($value->amount, 0, '', '.');
+			$payment[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ko";
 			$payment[$i]['date']			= date("d M Y", strtotime($value->date));
 			$payment[$i]['payment_key']		= $value->payment_key;
 			$i++;
@@ -247,7 +247,7 @@ class V1_customer extends CI_Controller {
 
 		$feedback['data']['merchant_name']	= $merchants_data->name;
 		$feedback['data']['description']	= $payment_data->description;
-		$feedback['data']['amount']			= "Rp ".number_format($payment_data->amount, 0, '', '.');
+		$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ko";
 		$this->write->feedback($feedback);
 	}
 
@@ -304,7 +304,7 @@ class V1_customer extends CI_Controller {
 		$transactions['description']			= $payment_data->description;
 		$this->transactions->insert($transactions);
 
-		$feedback['data']['balance']			= "Rp ".number_format($customer_transaction_balance, 0, '', '.');
+		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ko";
 
 		$payment['payment_status_id']			= 1;
 		$this->payment->update($payment_data->payment_id, $payment);
@@ -395,7 +395,7 @@ class V1_customer extends CI_Controller {
 		$this->transactions->insert($transactions);
 
 
-		$feedback['data']['balance']			= "Rp ".number_format($customer_transaction_balance, 0, '', '.');
+		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ko";
 		$this->write->feedback($feedback);
 	}
 
@@ -423,12 +423,12 @@ class V1_customer extends CI_Controller {
 			$this->write->feedback($feedback);
     	}
 
-    	$vouchers_data = $this->vouchers->get_by_vouchers_key($input['qrcode']);
+    	$deposit_vouchers_data = $this->deposit_vouchers->get_by_vouchers_key($input['qrcode']);
     	if ($payment_data) {
     		$merchants_data = $this->merchants->get_by_id($payment_data->merchant_id);
 
     		$feedback['data']['type'] 			= 3;
-			$feedback['data']['amount']			= "Rp ".number_format($payment_data->amount, 0, '', '.');
+			$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ko";
 			//balance add
 			//total balance
 			$this->write->feedback($feedback);
@@ -472,4 +472,112 @@ class V1_customer extends CI_Controller {
 		$feedback['error'] 			= false;
     	$this->write->feedback($feedback);
     }
+
+    public function get_products() {
+    	$login_data = $this->auth->login_key();
+
+    	$this->load->model("products");
+
+		$products_data = $this->products->get();
+		if (!$products_data) {
+			$this->write->error("Tidak ada product");
+		}
+
+		$i = 0;
+		foreach ($products_data as $value) {
+			$product[$i]['product_name']	= $value->product_name;
+			$product[$i]['price']			= number_format($value->price, 2, ',', '.')."Ko";
+			$product[$i]['image']			= $value->image;
+			$product[$i]['product_key']		= $value->product_key;
+			$i++;
+		}
+
+		$feedback['data']['products']	= $product;
+		$this->write->feedback($feedback);
+    }
+
+    public function check_product() {
+    	$login_data = $this->auth->login_key_v2();
+    	$input = $this->auth->input_v2();
+
+    	$this->load->model("products");
+
+		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
+		if (!$accounts_data) {
+			$this->write->error("Your account was deleted");
+		}
+
+		$products_data = $this->products->get_by_product_key($input->product_key);
+		$result_balance = $accounts_data->balance - $products_data->price;
+
+		if ($result_balance < 0) {
+			$this->write->error("Anda tidak memiliki koin yang cukup");
+		}
+
+		$customers_data = $this->customers->get_by_id($login_data->customer_id);
+
+		$feedback['data']['message']	= "Anda dapat membeli produk ini";
+		$feedback['data']['phone']		= $customers_data->phone;
+		$this->write->feedback($feedback);
+    }
+
+    public function buy_product() {
+    	$login_data = $this->auth->login_key_v2();
+    	$input = $this->auth->input_v2();
+
+    	$this->load->model("products");
+
+    	$accounts_data = $this->accounts->match_pin_by_id($login_data->account_id, $input->pin);
+    	if (!$accounts_data) {
+    		$this->write->error("PIN Salah");
+    	}
+
+    	$products_data = $this->products->get_by_product_key($input->product_key);
+    	if (!$products_data) {
+			$this->write->error("Product key error");
+		}
+
+		$customer_transaction_balance = $accounts_data->balance - $products_data->price;
+		if ($customer_transaction_balance < 0) {
+			$this->write->error("Insufficient Balance");
+		}
+
+		$accounts['balance'] = $customer_transaction_balance;
+		$this->accounts->update($login_data->account_id, $accounts);
+
+		$merchants_account_data = $this->accounts->get_by_merchant_id($products_data->merchant_id);
+		$merchant_transaction_balance = $merchants_account_data->balance + $products_data->price;
+
+		$accounts['balance'] = $merchant_transaction_balance;
+		$this->accounts->update($merchants_account_data->account_id, $accounts);
+
+		$referrence_code = md5(time()."trans");
+		$voucher_code = rand(1000, 9999).rand(1000, 9999);
+		// Customer
+		$transactions['customer_id']			= $login_data->customer_id;
+		$transactions['amount']					= $products_data->price;
+		$transactions['transaction_type_id']	= 4;
+		$transactions['balance']				= $customer_transaction_balance;
+		$transactions['transaction_date']		= date("Y-m-d H:i:S");
+		$transactions['transaction_referrence']	= $referrence_code;
+		$transactions['description']			= $products_data->product_name." : ".$voucher_code;
+		$this->transactions->insert($transactions);
+
+		// Merchant
+		$transactions['customer_id']			= $merchants_account_data->customer_id;
+		$transactions['amount']					= $products_data->price;
+		$transactions['transaction_type_id']	= 2;
+		$transactions['balance']				= $merchant_transaction_balance;
+		$transactions['transaction_date']		= date("Y-m-d H:i:S");
+		$transactions['transaction_referrence']	= $referrence_code;
+		$transactions['description']			= $products_data->product_name." : ".$voucher_code;
+		$this->transactions->insert($transactions);
+
+		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
+
+		$feedback['data']['balance'] 	= number_format($accounts_data->balance, 2, ',', '.')."Ko";
+		$feedback['data']['message']	= $products_data->product_name." : ".$voucher_code;
+		$this->write->feedback($feedback);
+    }
+
 }

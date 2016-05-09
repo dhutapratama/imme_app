@@ -35,6 +35,24 @@ class Auth {
 		return $post_data;
 	}
 
+	function input_v2() {
+		$json = file_get_contents('php://input');
+		return json_decode($json);
+	}
+
+	function login_key_v2() {
+		$CI =& get_instance();
+        $CI->load->model('login');
+
+        $input = $this->input_v2();
+        
+		$login_data = $CI->login->get_by_login_key($input->login_key);
+		if (!$login_data) {
+			$CI->write->error('Your session was expired');	
+		}
+		return $login_data;
+	}
+
 	//----------------------- Merchants -----------------------//
 	function merchant_key() {
 		$CI =& get_instance();
