@@ -159,7 +159,7 @@ class V1_customer extends CI_Controller {
 
 		$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ko";
 		$feedback['data']['search_id'] 			= $customers_data->search_id;
-		$feedback['data']['search_id_image'] 	= "http://imme.duckdns.org/search_id/".$customers_data->search_id.".png";
+		$feedback['data']['search_id_image'] 	= "http://".$_SERVER['HTTP_HOST']."/search_id/".$customers_data->search_id.".png";
     	$feedback['data']['is_phone_verified']	= $customers_data->is_phone_verified;
 		$this->write->feedback($feedback);
 	}
