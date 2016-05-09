@@ -77,7 +77,7 @@ class V1_server extends CI_Controller {
 	}
 
 	public function import_sms() {
-		$server = "http://rufi.hol.es/V1_server/export_sms";
+		$server = "http://rufi.hol.es/v1_server/export_sms";
 
 		$post_data['server_key']    = "sms_server";
 
@@ -86,27 +86,22 @@ class V1_server extends CI_Controller {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $feedback_data = curl_exec($ch);
+        $feedback_data = json_decode(curl_exec($ch));
         curl_close($ch);
 
-        echo $feedback_data;
-
-        return true;
-
-        if ($feedback_data['error']) {
-        	$this->write->error("No SMS");
+        if ($feedback_data->error) {
+        	$this->write->error("No SMS from Live Server");
         }
 
-        foreach ($data["sms"] as $value) {
+        foreach ($feedback_data->data->sms as $value) {
         	$this->load->model("gammu");
-			$send['DestinationNumber']	= $value['destination'];
-			$send['TextDecoded']		= $value['text'];
+			$send['DestinationNumber']	= $value->destination;
+			$send['TextDecoded']		= $value->text;
 			$send['CreatorID']			= "IMME Verifikasi";
 			$sms_id = $this->gammu->send($send);
         }
 
-		while ($this->gammu->get_by_id($sms_id)) {
-    		sleep(3);
-    	}
+    	$feedback['data']['sms_recorded'] = count($feedback_data->data->sms);
+    	$this->write->feedback($feedback);
 	}
 }
