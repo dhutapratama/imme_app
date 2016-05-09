@@ -114,6 +114,7 @@ class V1_customer extends CI_Controller {
 
 		$customers_data = $this->customers->get_by_id($login_data->customer_id);
 
+/*
 		$this->load->model("gammu");
 		$send['DestinationNumber']	= $input['phone'];
 		$send['TextDecoded']		= "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!";
@@ -121,6 +122,17 @@ class V1_customer extends CI_Controller {
 		$sms_id = $this->gammu->send($send);
 
 		while ($this->gammu->get_by_id($sms_id)) {
+    		sleep(3);
+    	}
+*/
+
+    	$this->load->model("sms");
+    	$sms['destination']	= $input['phone'];
+		$sms['text']		= "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!";
+		$sms['status']		= "0";
+		$sms_id = $this->sms->insert($sms);
+
+		while ($this->sms->get_by_processed($sms_id)) {
     		sleep(3);
     	}
 
@@ -157,7 +169,7 @@ class V1_customer extends CI_Controller {
 			$this->write->error("Your account was deleted");
 		}
 
-		$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ko";
+		$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ҝ";
 		$feedback['data']['search_id'] 			= $customers_data->search_id;
 		$feedback['data']['search_id_image'] 	= "http://".$_SERVER['HTTP_HOST']."/search_id/".$customers_data->search_id.".png";
     	$feedback['data']['is_phone_verified']	= $customers_data->is_phone_verified;
@@ -198,7 +210,7 @@ class V1_customer extends CI_Controller {
 			$transaction_type_data = $this->transaction_types->get_by_id($value->transaction_type_id);
 
 			$transaction[$i]['type']			= $transaction_type_data->name;
-			$transaction[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ko";
+			$transaction[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ҝ";
 			$transaction[$i]['description']		= $value->description;
 			$transaction[$i]['date']			= date("d M Y", strtotime($value->transaction_date));
 			$transaction[$i]['referrence_code']	= $value->transaction_referrence;
@@ -222,7 +234,7 @@ class V1_customer extends CI_Controller {
 			$merchants_data = $this->merchants->get_by_id($value->merchant_id);
 			$payment[$i]['merchant_name']	= $merchants_data->name;
 			$payment[$i]['description']		= $value->description;
-			$payment[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ko";
+			$payment[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ҝ";
 			$payment[$i]['date']			= date("d M Y", strtotime($value->date));
 			$payment[$i]['payment_key']		= $value->payment_key;
 			$i++;
@@ -247,7 +259,7 @@ class V1_customer extends CI_Controller {
 
 		$feedback['data']['merchant_name']	= $merchants_data->name;
 		$feedback['data']['description']	= $payment_data->description;
-		$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ko";
+		$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ҝ";
 		$this->write->feedback($feedback);
 	}
 
@@ -304,7 +316,7 @@ class V1_customer extends CI_Controller {
 		$transactions['description']			= $payment_data->description;
 		$this->transactions->insert($transactions);
 
-		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ko";
+		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ҝ";
 
 		$payment['payment_status_id']			= 1;
 		$this->payment->update($payment_data->payment_id, $payment);
@@ -395,7 +407,7 @@ class V1_customer extends CI_Controller {
 		$this->transactions->insert($transactions);
 
 
-		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ko";
+		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ҝ";
 		$this->write->feedback($feedback);
 	}
 
@@ -428,7 +440,7 @@ class V1_customer extends CI_Controller {
     		$merchants_data = $this->merchants->get_by_id($payment_data->merchant_id);
 
     		$feedback['data']['type'] 			= 3;
-			$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ko";
+			$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ҝ";
 			//balance add
 			//total balance
 			$this->write->feedback($feedback);
@@ -486,7 +498,7 @@ class V1_customer extends CI_Controller {
 		$i = 0;
 		foreach ($products_data as $value) {
 			$product[$i]['product_name']	= $value->product_name;
-			$product[$i]['price']			= number_format($value->price, 2, ',', '.')."Ko";
+			$product[$i]['price']			= number_format($value->price, 2, ',', '.')."Ҝ";
 			$product[$i]['image']			= $value->image;
 			$product[$i]['product_key']		= $value->product_key;
 			$i++;
@@ -575,7 +587,7 @@ class V1_customer extends CI_Controller {
 
 		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
 
-		$feedback['data']['balance'] 	= number_format($accounts_data->balance, 2, ',', '.')."Ko";
+		$feedback['data']['balance'] 	= number_format($accounts_data->balance, 2, ',', '.')."Ҝ";
 		$feedback['data']['message']	= $products_data->product_name." : ".$voucher_code;
 		$this->write->feedback($feedback);
     }
