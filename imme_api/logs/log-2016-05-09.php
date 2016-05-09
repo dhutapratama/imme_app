@@ -989,3 +989,208 @@ INFO - 2016-05-09 14:14:15 --> Model Class Initialized
 INFO - 2016-05-09 14:14:15 --> Model Class Initialized
 INFO - 2016-05-09 14:14:15 --> Model Class Initialized
 INFO - 2016-05-09 14:14:15 --> Model Class Initialized
+INFO - 2016-05-09 14:14:36 --> Config Class Initialized
+INFO - 2016-05-09 14:14:36 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:14:36 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:14:36 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:14:36 --> URI Class Initialized
+INFO - 2016-05-09 14:14:36 --> Router Class Initialized
+INFO - 2016-05-09 14:14:36 --> Output Class Initialized
+INFO - 2016-05-09 14:14:36 --> Security Class Initialized
+DEBUG - 2016-05-09 14:14:36 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:14:36 --> Input Class Initialized
+INFO - 2016-05-09 14:14:36 --> Language Class Initialized
+INFO - 2016-05-09 14:14:36 --> Loader Class Initialized
+INFO - 2016-05-09 14:14:36 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:14:37 --> Controller Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:37 --> Model Class Initialized
+INFO - 2016-05-09 14:14:41 --> Config Class Initialized
+INFO - 2016-05-09 14:14:41 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:14:41 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:14:41 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:14:41 --> URI Class Initialized
+INFO - 2016-05-09 14:14:41 --> Router Class Initialized
+INFO - 2016-05-09 14:14:41 --> Output Class Initialized
+INFO - 2016-05-09 14:14:41 --> Security Class Initialized
+DEBUG - 2016-05-09 14:14:41 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:14:41 --> Input Class Initialized
+INFO - 2016-05-09 14:14:41 --> Language Class Initialized
+INFO - 2016-05-09 14:14:41 --> Loader Class Initialized
+INFO - 2016-05-09 14:14:42 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:14:43 --> Controller Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:43 --> Model Class Initialized
+INFO - 2016-05-09 14:14:47 --> Config Class Initialized
+INFO - 2016-05-09 14:14:48 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:14:48 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:14:48 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:14:48 --> URI Class Initialized
+INFO - 2016-05-09 14:14:48 --> Router Class Initialized
+INFO - 2016-05-09 14:14:48 --> Output Class Initialized
+INFO - 2016-05-09 14:14:48 --> Security Class Initialized
+DEBUG - 2016-05-09 14:14:48 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:14:48 --> Input Class Initialized
+INFO - 2016-05-09 14:14:48 --> Language Class Initialized
+INFO - 2016-05-09 14:14:48 --> Loader Class Initialized
+INFO - 2016-05-09 14:14:48 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:14:49 --> Controller Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:49 --> Model Class Initialized
+INFO - 2016-05-09 14:14:51 --> Config Class Initialized
+INFO - 2016-05-09 14:14:51 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:14:51 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:14:51 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:14:51 --> URI Class Initialized
+INFO - 2016-05-09 14:14:51 --> Router Class Initialized
+INFO - 2016-05-09 14:14:51 --> Output Class Initialized
+INFO - 2016-05-09 14:14:51 --> Security Class Initialized
+DEBUG - 2016-05-09 14:14:51 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:14:51 --> Input Class Initialized
+INFO - 2016-05-09 14:14:51 --> Language Class Initialized
+INFO - 2016-05-09 14:14:51 --> Loader Class Initialized
+INFO - 2016-05-09 14:14:51 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:14:52 --> Controller Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:14:52 --> Model Class Initialized
+INFO - 2016-05-09 14:21:41 --> Config Class Initialized
+INFO - 2016-05-09 14:21:41 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:21:41 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:21:41 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:21:41 --> URI Class Initialized
+INFO - 2016-05-09 14:21:41 --> Router Class Initialized
+INFO - 2016-05-09 14:21:41 --> Output Class Initialized
+INFO - 2016-05-09 14:21:41 --> Security Class Initialized
+DEBUG - 2016-05-09 14:21:41 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:21:41 --> Input Class Initialized
+INFO - 2016-05-09 14:21:41 --> Language Class Initialized
+INFO - 2016-05-09 14:21:41 --> Loader Class Initialized
+INFO - 2016-05-09 14:21:41 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:21:42 --> Controller Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:42 --> Model Class Initialized
+INFO - 2016-05-09 14:21:43 --> Config Class Initialized
+INFO - 2016-05-09 14:21:43 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:21:43 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:21:43 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:21:43 --> URI Class Initialized
+INFO - 2016-05-09 14:21:43 --> Router Class Initialized
+INFO - 2016-05-09 14:21:43 --> Output Class Initialized
+INFO - 2016-05-09 14:21:43 --> Security Class Initialized
+DEBUG - 2016-05-09 14:21:43 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:21:43 --> Input Class Initialized
+INFO - 2016-05-09 14:21:43 --> Language Class Initialized
+INFO - 2016-05-09 14:21:43 --> Loader Class Initialized
+INFO - 2016-05-09 14:21:43 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:21:44 --> Controller Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:21:44 --> Model Class Initialized
+INFO - 2016-05-09 14:23:09 --> Config Class Initialized
+INFO - 2016-05-09 14:23:09 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:23:09 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:23:09 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:23:09 --> URI Class Initialized
+INFO - 2016-05-09 14:23:09 --> Router Class Initialized
+INFO - 2016-05-09 14:23:09 --> Output Class Initialized
+INFO - 2016-05-09 14:23:09 --> Security Class Initialized
+DEBUG - 2016-05-09 14:23:09 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:23:09 --> Input Class Initialized
+INFO - 2016-05-09 14:23:09 --> Language Class Initialized
+INFO - 2016-05-09 14:23:09 --> Loader Class Initialized
+INFO - 2016-05-09 14:23:09 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:23:10 --> Controller Class Initialized
+INFO - 2016-05-09 14:23:10 --> Model Class Initialized
+INFO - 2016-05-09 14:23:10 --> Model Class Initialized
+INFO - 2016-05-09 14:23:10 --> Model Class Initialized
+INFO - 2016-05-09 14:23:10 --> Model Class Initialized
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 84
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_setopt() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 84
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 85
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_setopt() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 85
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 86
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_setopt() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 86
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 87
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_setopt() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 87
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 88
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_exec() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 88
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: ch D:\web_files\imme_app\imme_api\controllers\V1_server.php 89
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> curl_close() expects parameter 1 to be resource, null given D:\web_files\imme_app\imme_api\controllers\V1_server.php 89
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined variable: data D:\web_files\imme_app\imme_api\controllers\V1_server.php 95
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> Invalid argument supplied for foreach() D:\web_files\imme_app\imme_api\controllers\V1_server.php 95
+ERROR - 2016-05-09 14:23:10 --> Severity: Notice --> Undefined property: V1_server::$gammu D:\web_files\imme_app\imme_api\controllers\V1_server.php 103
+ERROR - 2016-05-09 14:23:10 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at D:\web_files\imme_app\system\core\Exceptions.php:272) D:\web_files\imme_app\system\core\Common.php 573
+ERROR - 2016-05-09 14:23:10 --> Severity: Error --> Call to a member function get_by_id() on a non-object D:\web_files\imme_app\imme_api\controllers\V1_server.php 103
+INFO - 2016-05-09 14:23:46 --> Config Class Initialized
+INFO - 2016-05-09 14:23:46 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:23:46 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:23:46 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:23:46 --> URI Class Initialized
+INFO - 2016-05-09 14:23:46 --> Router Class Initialized
+INFO - 2016-05-09 14:23:46 --> Output Class Initialized
+INFO - 2016-05-09 14:23:46 --> Security Class Initialized
+DEBUG - 2016-05-09 14:23:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:23:46 --> Input Class Initialized
+INFO - 2016-05-09 14:23:46 --> Language Class Initialized
+INFO - 2016-05-09 14:23:46 --> Loader Class Initialized
+INFO - 2016-05-09 14:23:46 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:23:47 --> Controller Class Initialized
+INFO - 2016-05-09 14:23:47 --> Model Class Initialized
+INFO - 2016-05-09 14:23:47 --> Model Class Initialized
+INFO - 2016-05-09 14:23:47 --> Model Class Initialized
+INFO - 2016-05-09 14:23:47 --> Model Class Initialized
+ERROR - 2016-05-09 14:23:51 --> Severity: Error --> Cannot use object of type stdClass as array D:\web_files\imme_app\imme_api\controllers\V1_server.php 92
+INFO - 2016-05-09 14:25:10 --> Config Class Initialized
+INFO - 2016-05-09 14:25:10 --> Hooks Class Initialized
+DEBUG - 2016-05-09 14:25:10 --> UTF-8 Support Enabled
+INFO - 2016-05-09 14:25:10 --> Utf8 Class Initialized
+INFO - 2016-05-09 14:25:10 --> URI Class Initialized
+INFO - 2016-05-09 14:25:10 --> Router Class Initialized
+INFO - 2016-05-09 14:25:10 --> Output Class Initialized
+INFO - 2016-05-09 14:25:10 --> Security Class Initialized
+DEBUG - 2016-05-09 14:25:10 --> Global POST, GET and COOKIE data sanitized
+INFO - 2016-05-09 14:25:10 --> Input Class Initialized
+INFO - 2016-05-09 14:25:10 --> Language Class Initialized
+INFO - 2016-05-09 14:25:11 --> Loader Class Initialized
+INFO - 2016-05-09 14:25:11 --> Database Driver Class Initialized
+INFO - 2016-05-09 14:25:12 --> Controller Class Initialized
+INFO - 2016-05-09 14:25:12 --> Model Class Initialized
+INFO - 2016-05-09 14:25:12 --> Model Class Initialized
+INFO - 2016-05-09 14:25:12 --> Model Class Initialized
+INFO - 2016-05-09 14:25:12 --> Model Class Initialized
+INFO - 2016-05-09 14:25:12 --> Final output sent to browser
+DEBUG - 2016-05-09 14:25:12 --> Total execution time: 1.9188

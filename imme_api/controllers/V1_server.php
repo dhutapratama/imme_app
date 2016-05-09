@@ -81,12 +81,17 @@ class V1_server extends CI_Controller {
 
 		$post_data['server_key']    = "sms_server";
 
+		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $server);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $feedback_data = json_decode(curl_exec($ch));
+        $feedback_data = curl_exec($ch);
         curl_close($ch);
+
+        echo $feedback_data;
+
+        return true;
 
         if ($feedback_data['error']) {
         	$this->write->error("No SMS");
