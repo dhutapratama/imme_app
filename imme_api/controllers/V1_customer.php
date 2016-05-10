@@ -582,7 +582,7 @@ class V1_customer extends CI_Controller {
 		$transactions['balance']				= $merchant_transaction_balance;
 		$transactions['transaction_date']		= date("Y-m-d H:i:S");
 		$transactions['transaction_referrence']	= $referrence_code;
-		$transactions['description']			= $products_data->product_name." : ".$voucher_code;
+		$transactions['description']			= $products_data->product_name.". Kode Voucher : ".$voucher_code;
 		$this->transactions->insert($transactions);
 
 		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
