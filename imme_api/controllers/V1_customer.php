@@ -16,12 +16,9 @@ class V1_customer extends CI_Controller {
     }
 
     public function account() {
-    	$check = array(
-    		'id_token' => 'required',
-    		'gcm_token' => 'required');
-    	$input = $this->auth->input($check);
+    	$input = $this->auth->input_v2();
 
-    	$url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=".$input['id_token'];
+    	$url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=".$input->id_token;
 		$opts = array('http' => array( 'ignore_errors'  => true ) );
 
 		$context = stream_context_create($opts);
@@ -56,8 +53,8 @@ class V1_customer extends CI_Controller {
 			$customer['is_blocked']			= 0;
 			$customer['referral_code']		= rand(100000, 999999);
 			$customer['search_id']			= md5(time().rand(10, 99));
-			$customer['id_token']			= $input['id_token'];
-			$customer['gcm_token'] 			= $input['gcm_token'];
+			$customer['id_token']			= $input->id_token;
+			$customer['gcm_token'] 			= $input->gcm_token;
     		$this->customers->insert($customer);
     		$customers_data = $this->customers->get_by_google_user_id($google_data->sub);
 
@@ -76,7 +73,7 @@ class V1_customer extends CI_Controller {
 			$accounts['in_transaction']	= 0;
 			$this->accounts->insert($accounts);
     	} else {
-	    	$customer['gcm_token'] 			= $input['gcm_token'];
+	    	$customer['gcm_token'] 			= $input->gcm_token;
 	    	$this->customers->update($customers_data->customer_id, $customer);
     	}
 
@@ -158,7 +155,8 @@ class V1_customer extends CI_Controller {
 
     // -------- GET Balance -------- //
 	public function	balance() {
-		$login_data = $this->auth->login_key();
+		$login_data = $this->auth->login_key_v2();
+    	$input = $this->auth->input_v2();
 
 		$customers_data = $this->customers->get_by_id($login_data->customer_id);
 		if (!$customers_data) {
@@ -169,7 +167,8 @@ class V1_customer extends CI_Controller {
 			$this->write->error("Your account was deleted");
 		}
 
-		$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ҝ";
+		//$feedback['data']['balance'] 			= number_format($accounts_data->balance, 2, ',', '.')."Ҝ";
+		$feedback['data']['balance'] 			= "Rp".number_format($accounts_data->balance, 0, ',', '.');
 		$feedback['data']['search_id'] 			= $customers_data->search_id;
 		$feedback['data']['search_id_image'] 	= "http://".$_SERVER['HTTP_HOST']."/search_id/".$customers_data->search_id.".png";
     	$feedback['data']['is_phone_verified']	= $customers_data->is_phone_verified;
@@ -177,7 +176,7 @@ class V1_customer extends CI_Controller {
 	}
 
 	public function transaction_history() {
-		$login_data = $this->auth->login_key();
+		$login_data = $this->auth->login_key_v2();
 
 		$transactions_data = $this->transactions->get_by_customer_id($login_data->customer_id);
 		if (!$transactions_data) {
@@ -210,7 +209,7 @@ class V1_customer extends CI_Controller {
 			$transaction_type_data = $this->transaction_types->get_by_id($value->transaction_type_id);
 
 			$transaction[$i]['type']			= $transaction_type_data->name;
-			$transaction[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ҝ";
+			$transaction[$i]['amount']			= "Rp".number_format($value->amount, 0, ',', '.');
 			$transaction[$i]['description']		= $value->description;
 			$transaction[$i]['date']			= date("d M Y", strtotime($value->transaction_date));
 			$transaction[$i]['referrence_code']	= $value->transaction_referrence;
@@ -234,7 +233,7 @@ class V1_customer extends CI_Controller {
 			$merchants_data = $this->merchants->get_by_id($value->merchant_id);
 			$payment[$i]['merchant_name']	= $merchants_data->name;
 			$payment[$i]['description']		= $value->description;
-			$payment[$i]['amount']			= number_format($value->amount, 0, '', '.')."Ҝ";
+			$payment[$i]['amount']			= "Rp".number_format($value->amount, 0, ',', '.');
 			$payment[$i]['date']			= date("d M Y", strtotime($value->date));
 			$payment[$i]['payment_key']		= $value->payment_key;
 			$i++;
@@ -259,7 +258,7 @@ class V1_customer extends CI_Controller {
 
 		$feedback['data']['merchant_name']	= $merchants_data->name;
 		$feedback['data']['description']	= $payment_data->description;
-		$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ҝ";
+		$feedback['data']['amount']			= "Rp".number_format($payment_data->amount, 0, '', '.');
 		$this->write->feedback($feedback);
 	}
 
@@ -316,7 +315,7 @@ class V1_customer extends CI_Controller {
 		$transactions['description']			= $payment_data->description;
 		$this->transactions->insert($transactions);
 
-		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ҝ";
+		$feedback['data']['balance']			= "Rp".number_format($customer_transaction_balance, 0, '', '.');
 
 		$payment['payment_status_id']			= 1;
 		$this->payment->update($payment_data->payment_id, $payment);
@@ -407,7 +406,7 @@ class V1_customer extends CI_Controller {
 		$this->transactions->insert($transactions);
 
 
-		$feedback['data']['balance']			= number_format($customer_transaction_balance, 0, '', '.')."Ҝ";
+		$feedback['data']['balance']			= "Rp".number_format($customer_transaction_balance, 0, '', '.');
 		$this->write->feedback($feedback);
 	}
 
@@ -440,7 +439,7 @@ class V1_customer extends CI_Controller {
     		$merchants_data = $this->merchants->get_by_id($payment_data->merchant_id);
 
     		$feedback['data']['type'] 			= 3;
-			$feedback['data']['amount']			= number_format($payment_data->amount, 0, '', '.')."Ҝ";
+			$feedback['data']['amount']			= "Rp".number_format($payment_data->amount, 0, '', '.');
 			//balance add
 			//total balance
 			$this->write->feedback($feedback);
@@ -498,7 +497,7 @@ class V1_customer extends CI_Controller {
 		$i = 0;
 		foreach ($products_data as $value) {
 			$product[$i]['product_name']	= $value->product_name;
-			$product[$i]['price']			= number_format($value->price, 2, ',', '.')."Ҝ";
+			$product[$i]['price']			= "Rp".number_format($value->price, 0, ',', '.');
 			$product[$i]['image']			= $value->image;
 			$product[$i]['product_key']		= $value->product_key;
 			$i++;
@@ -587,9 +586,25 @@ class V1_customer extends CI_Controller {
 
 		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
 
-		$feedback['data']['balance'] 	= number_format($accounts_data->balance, 2, ',', '.')."Ҝ";
+		$feedback['data']['balance'] 	= "Rp".number_format($accounts_data->balance, 0, ',', '.');
 		$feedback['data']['message']	= $products_data->product_name." : ".$voucher_code;
 		$this->write->feedback($feedback);
+    }
+
+    // Pengaturan
+    public function change_pin() {
+    	$login_data = $this->auth->login_key_v2();
+    	$input = $this->auth->input_v2();
+
+    	$accounts_data = $this->accounts->match_pin_by_id($login_data->customer_id, $input->pin);
+    	if (!$accounts_data) {
+    		$this->write->error("PIN Salah");
+    	}
+
+		$accounts['pin'] = md5($input->pin_new);
+		$this->accounts->update($login_data->account_id, $accounts);
+
+		$this->write->feedback();
     }
 
 }
