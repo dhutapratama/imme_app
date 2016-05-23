@@ -71,7 +71,7 @@ class V1_customer extends CI_Controller {
 			$accounts['merchant_id']	= 0;
 			$accounts['account_number']	= 10000 + $customers_data->customer_id;
 			$accounts['pin']			= 0;
-			$accounts['balance']		= 20;
+			$accounts['balance']		= 10000;
 			$accounts['in_transaction']	= 0;
 			$this->accounts->insert($accounts);
     	} else {
@@ -568,7 +568,7 @@ class V1_customer extends CI_Controller {
 		$result_balance = $accounts_data->balance - $products_data->price;
 
 		if ($result_balance < 0) {
-			$this->write->error("Anda tidak memiliki koin yang cukup");
+			$this->write->error("Saldo anda tidak mencukupi");
 		}
 
 		$customers_data = $this->customers->get_by_id($login_data->customer_id);
