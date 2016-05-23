@@ -54,7 +54,9 @@ class V1_customer extends CI_Controller {
 			$customer['referral_code']		= rand(100000, 999999);
 			$customer['search_id']			= md5(time().rand(10, 99));
 			$customer['id_token']			= $input->id_token;
-			$customer['gcm_token'] 			= $input->gcm_token;
+			if (isset($input->gcm_token)) {
+				$customer['gcm_token'] 			= $input->gcm_token;
+	    	}
     		$this->customers->insert($customer);
     		$customers_data = $this->customers->get_by_google_user_id($google_data->sub);
 
@@ -73,8 +75,10 @@ class V1_customer extends CI_Controller {
 			$accounts['in_transaction']	= 0;
 			$this->accounts->insert($accounts);
     	} else {
-	    	$customer['gcm_token'] 			= $input->gcm_token;
-	    	$this->customers->update($customers_data->customer_id, $customer);
+    		if (isset($input->gcm_token)) {
+		    	$customer['gcm_token'] 			= $input->gcm_token;
+		    	$this->customers->update($customers_data->customer_id, $customer);
+	    	}
     	}
 
     	if ($customers_data->is_blocked == "1") {
@@ -190,7 +194,7 @@ class V1_customer extends CI_Controller {
 			$transaction_vs = $this->transactions->get_vs_transaction($value->transaction_referrence, $login_data->customer_id);
 			if (!$transaction_vs) {
 				$transaction[$i]['name']			= "IMME";
-				$transaction[$i]['picture']			= "http://imme.duckdns.org/default.png";
+				$transaction[$i]['picture']			= "http://imme.duckdns.org/ic_launcher.png";
 			} else {
 				$customers_data = $this->customers->get_by_id($transaction_vs->customer_id);
 
@@ -212,11 +216,52 @@ class V1_customer extends CI_Controller {
 			$transaction[$i]['amount']			= "Rp".number_format($value->amount, 0, ',', '.');
 			$transaction[$i]['description']		= $value->description;
 			$transaction[$i]['date']			= date("d M Y", strtotime($value->transaction_date));
-			$transaction[$i]['referrence_code']	= $value->transaction_referrence;
+			$transaction[$i]['transaction_refference']	= $value->transaction_referrence;
 			$i++;
 		}
 
 		$feedback['data']['transactions']	= $transaction;
+		$this->write->feedback($feedback);
+	}
+
+	public function transaction_detail() {
+		$login_data = $this->auth->login_key_v2();
+		$input = $this->auth->input_v2();
+
+		$transactions_data = $this->transactions->get_by_reference($input->transaction_refference);
+		if (!$transactions_data) {
+			$this->write->error("Tidak ada transaksi");
+		}
+
+
+		$transaction_vs = $this->transactions->get_vs_transaction($input->transaction_refference, $login_data->customer_id);
+		$transaction_my = $this->transactions->get_my_transaction($input->transaction_refference, $login_data->customer_id);
+		$this->load->model("transaction_types");
+		$transaction_type_data = $this->transaction_types->get_by_id($transaction_my->transaction_type_id);
+
+		if (!$transaction_vs) {
+			$transaction['name']			= "IMME";
+			$transaction['picture']			= "http://imme.duckdns.org/ic_launcher.png";
+		} else {
+			$customers_data = $this->customers->get_by_id($transaction_vs->customer_id);
+
+			if ($transaction_my->transaction_type_id == "4") {
+				$accounts_data 		= $this->accounts->get_by_customer_id($transaction_vs->customer_id);
+				$merchants_data 	= $this->merchants->get_by_id($accounts_data->merchant_id);
+				$transaction['name']		= $merchants_data->name;
+				$transaction['picture']		= $customers_data->picture_url;
+			} else {
+				$transaction['name']		= $customers_data->name;
+				$transaction['picture']		= $customers_data->picture_url;
+			}
+		}
+
+		$transaction['type']		= $transaction_type_data->name;
+		$transaction['amount']		= "Rp".number_format($transaction_my->amount, 0, ',', '.');
+		$transaction['description']	= $transaction_my->description;
+		$transaction['date']		= date("d M Y H:i", strtotime($transaction_my->transaction_date));
+
+		$feedback['data']	= $transaction;
 		$this->write->feedback($feedback);
 	}
 
@@ -262,6 +307,7 @@ class V1_customer extends CI_Controller {
 		$this->write->feedback($feedback);
 	}
 
+	// -------- Transaction -------- //
 	public function payment() {
 		$login_data = $this->auth->login_key();
 
@@ -571,7 +617,7 @@ class V1_customer extends CI_Controller {
 		$transactions['balance']				= $customer_transaction_balance;
 		$transactions['transaction_date']		= date("Y-m-d H:i:S");
 		$transactions['transaction_referrence']	= $referrence_code;
-		$transactions['description']			= $products_data->product_name." : ".$voucher_code;
+		$transactions['description']			= $products_data->product_name." - Kode Voucher ".$voucher_code;
 		$this->transactions->insert($transactions);
 
 		// Merchant
@@ -581,13 +627,13 @@ class V1_customer extends CI_Controller {
 		$transactions['balance']				= $merchant_transaction_balance;
 		$transactions['transaction_date']		= date("Y-m-d H:i:S");
 		$transactions['transaction_referrence']	= $referrence_code;
-		$transactions['description']			= $products_data->product_name.". Kode Voucher : ".$voucher_code;
+		$transactions['description']			= $products_data->product_name.". - Kode Voucher ".$voucher_code;
 		$this->transactions->insert($transactions);
 
 		$accounts_data = $this->accounts->get_by_id($login_data->account_id);
 
 		$feedback['data']['balance'] 	= "Rp".number_format($accounts_data->balance, 0, ',', '.');
-		$feedback['data']['message']	= $products_data->product_name." : ".$voucher_code;
+		$feedback['data']['message']	= $products_data->product_name." - Kode Voucher ".$voucher_code;
 		$this->write->feedback($feedback);
     }
 
@@ -598,13 +644,17 @@ class V1_customer extends CI_Controller {
 
     	$accounts_data = $this->accounts->match_pin_by_id($login_data->customer_id, $input->pin);
     	if (!$accounts_data) {
-    		$this->write->error("PIN Salah");
+    		$this->write->error("PIN Lama Salah");
     	}
 
-		$accounts['pin'] = md5($input->pin_new);
+		$accounts['pin'] = md5($input->new_pin);
 		$this->accounts->update($login_data->account_id, $accounts);
 
 		$this->write->feedback();
+    }
+
+    public function get_settings() {
+
     }
 
 }

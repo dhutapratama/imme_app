@@ -60,4 +60,19 @@ class transactions extends CI_Model {
 				->get();
 		return $query->row();
 	}
+
+	public function get_my_transaction($transaction_reference = '', $customer_id = '') {
+		$query = $this->db->select('*')->from('imme_transactions')
+				->where('transaction_referrence', $transaction_reference)
+				->where('customer_id', $customer_id)
+				->get();
+		return $query->row();
+	}
+
+	public function get_by_reference($transaction_referrence = '') {
+		$query = $this->db->select('*')->from('imme_transactions')
+				->where('transaction_referrence', $transaction_referrence)
+				->get();
+		return $query->result();
+	}
 }
