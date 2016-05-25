@@ -49,7 +49,7 @@ $db['gammu'] = array(
 
 $db['rufi'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'mysql.idhostinger.com',
 	'username' => 'u792852607_imme',
 	'password' => 'immeapps',
 	'database' => 'u792852607_imme',

@@ -9,7 +9,6 @@ $deposit_vouchers['created_date']
 $deposit_vouchers['merchant_id']
 $deposit_vouchers['used_date']
 $deposit_vouchers['is_used']
-$deposit_vouchers['is_simulation']
 */
 
 class Deposit_vouchers extends CI_Model {
@@ -25,7 +24,7 @@ class Deposit_vouchers extends CI_Model {
 		return $query;
 	}
 
-	public function select()
+	public function get()
 	{
 		$query = $this->db->get('imme_deposit_vouchers');
 		return $query->result();
@@ -34,16 +33,16 @@ class Deposit_vouchers extends CI_Model {
 	public function delete($id = '')
 	{
 		$query = $this->db->delete('imme_deposit_vouchers')
-				->where('settinvoucher_idg_id', $id);
+				->where('voucher_id', $id);
 		return $query;
 	}
 
-	public function select_by_id($id = '')
+	public function get_by_id($id = '')
 	{
 		$query = $this->db->select('*')->from('imme_deposit_vouchers')
 				->where('voucher_id', $id)
 				->get();
-		return $query->result();
+		return $query->row();
 	}
 
 	public function update_by_id($id = '', $data = array())
@@ -53,11 +52,20 @@ class Deposit_vouchers extends CI_Model {
 		return $query;
 	}
 
-	public function select_by_voucher_code($voucher_code = '')
+	public function get_by_voucher_code($voucher_code = '')
 	{
 		$query = $this->db->select('*')->from('imme_deposit_vouchers')
 				->where('voucher_code', $voucher_code)
 				->get();
-		return $query->result();
+		return $query->row();
+	}
+
+	public function get_active_by_voucher_code($voucher_code = '')
+	{
+		$query = $this->db->select('*')->from('imme_deposit_vouchers')
+				->where('voucher_code', $voucher_code)
+				->where('is_used', 0)
+				->get();
+		return $query->row();
 	}
 }
