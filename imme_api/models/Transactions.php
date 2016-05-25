@@ -48,6 +48,7 @@ class transactions extends CI_Model {
 	public function get_by_customer_id($customer_id = '') {
 		$query = $this->db->select('*')->from('imme_transactions')
 				->where('customer_id', $customer_id)
+				->where('transaction_type_id !=', 8)
 				->order_by("transaction_id", "desc")
 				->get();
 		return $query->result();

@@ -1,7 +1,7 @@
 <?php
 
 while (true) {
-	$result = file_get_contents("http://imme.app/v1_server/import_sms");
+	$result = file_get_contents("http://rufi.hol.es/v1_server/import_sms");
 	$result = json_decode($result);
 
 	if ($result->error) {

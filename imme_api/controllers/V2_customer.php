@@ -34,7 +34,7 @@ class V2_customer extends CI_Controller {
     	}
 
     	if (!isset($google_data->picture)) {
-    		$user_picture = "http://imme.duckdns.org/default.png";
+    		$user_picture = "http://".$_SERVER['HTTP_HOST']."/default.png";
     	} else {
     		$user_picture = $google_data->picture;
     	}
@@ -74,6 +74,34 @@ class V2_customer extends CI_Controller {
 			$accounts['balance']		= 10000;
 			$accounts['in_transaction']	= 0;
 			$this->accounts->insert($accounts);
+
+			// Pemindahan saldo master (IMME) ke saldo account pendaftar sebagai dana yang beredar
+			$imme_account 	= $this->accounts->get_by_customer_id(1);
+			$imme_balance 	= $imme_account->balance - $accounts['balance'];
+
+			$imme['balance'] = $imme_balance;
+			$this->accounts->update($imme_account->account_id, $imme);
+
+			$referrence_code = md5(time()."trans");
+			// Pendaftar
+			$transactions['customer_id']			= $customers_data->customer_id;
+			$transactions['amount']					= $accounts['balance'];
+			$transactions['transaction_type_id']	= 8;
+			$transactions['balance']				= $accounts['balance'];
+			$transactions['transaction_date']		= date("Y-m-d H:i:S");
+			$transactions['transaction_referrence']	= $referrence_code;
+			$transactions['description']			= "Bonus Saldo Pendaftaran";
+			$this->transactions->insert($transactions);
+
+			// IMME Account
+			$transactions['customer_id']			= $imme_account->customer_id;
+			$transactions['amount']					= $accounts['balance'];
+			$transactions['transaction_type_id']	= 10;
+			$transactions['balance']				= $imme_balance;
+			$transactions['transaction_date']		= date("Y-m-d H:i:S");
+			$transactions['transaction_referrence']	= $referrence_code;
+			$transactions['description']			= "Bonus Saldo Pendaftaran";
+			$this->transactions->insert($transactions);
     	} else {
     		if (isset($input->gcm_token)) {
 		    	$customer['gcm_token'] 			= $input->gcm_token;
@@ -212,10 +240,10 @@ class V2_customer extends CI_Controller {
 
 			$transaction_type_data = $this->transaction_types->get_by_id($value->transaction_type_id);
 
-			$transaction[$i]['type']			= $transaction_type_data->name;
-			$transaction[$i]['amount']			= "Rp".number_format($value->amount, 0, ',', '.');
-			$transaction[$i]['description']		= $value->description;
-			$transaction[$i]['date']			= date("d M Y", strtotime($value->transaction_date));
+			$transaction[$i]['type']					= $transaction_type_data->name;
+			$transaction[$i]['amount']					= "Rp".number_format($value->amount, 0, ',', '.');
+			$transaction[$i]['description']				= $value->description;
+			$transaction[$i]['date']					= date("d M Y", strtotime($value->transaction_date));
 			$transaction[$i]['transaction_refference']	= $value->transaction_referrence;
 			$i++;
 		}
@@ -323,12 +351,12 @@ class V2_customer extends CI_Controller {
 
 		$payment_data = $this->payment->get_by_payment_key($input['payment_key']);
 		if (!$payment_data) {
-			$this->write->error("Payment key error");
+			$this->write->error("Tidak ditemukan tagihan");
 		}
 
 		$customer_transaction_balance = $accounts_data->balance - $payment_data->amount;
 		if ($customer_transaction_balance < 0) {
-			$this->write->error("Insufficient Balance");
+			$this->write->error("Transaksi gagal! Saldo tidak mencukupi");
 		}
 
 		$accounts['balance'] = $customer_transaction_balance;
@@ -363,7 +391,8 @@ class V2_customer extends CI_Controller {
 
 		$feedback['data']['balance']			= "Rp".number_format($customer_transaction_balance, 0, '', '.');
 
-		$payment['payment_status_id']			= 1;
+		$payment['account_id']			= $login_data->account_id;
+		$payment['payment_status_id']	= 1;
 		$this->payment->update($payment_data->payment_id, $payment);
 
 		// Notify Merchant Server
@@ -375,13 +404,16 @@ class V2_customer extends CI_Controller {
         $post_data['status_id']    		= 2;
         $post_data['referrence_code']    = $referrence_code;
 
-        curl_setopt($ch, CURLOPT_URL, $merchants_data->callback_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if(!$merchants_data->callback_url) {
+	        curl_setopt($ch, CURLOPT_URL, $merchants_data->callback_url);
+	        curl_setopt($ch, CURLOPT_POST, 1);
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        curl_exec($ch);
-        curl_close ($ch);
+	        curl_exec($ch);
+	        curl_close ($ch);
+        }
+        
 
 		// Status
 		$this->write->feedback($feedback);
@@ -501,7 +533,6 @@ class V2_customer extends CI_Controller {
 			$transactions['description']			= $voucher->description;
 			$this->transactions->insert($transactions);
 
-
 			$vouchers['is_used']		= "1";
 			$vouchers['used_date']		= date("Y-m-d H:i:S");
 			$vouchers['customer_id']	= $login_data->customer_id;
@@ -513,9 +544,23 @@ class V2_customer extends CI_Controller {
 									  
 			$this->write->feedback($feedback);
     	} elseif (strpos($input->qr_code, "p") !== false) { // Payment
-    		// Search payment
-    		// feedbackdetail payment
-    	} elseif (strpos($input->qr_code, "t") !== false) { // Treasure Hunt
+    		$payment_key = str_replace("p", "", $input->qr_code);
+    		$payment_data = $this->payment->get_by_payment_key($payment_key);
+    		if (!$payment_data) {
+    			$this->write->error("QRCode tidak ditemukan");
+    		}
+
+    		if ($payment_data->payment_status_id == "1") {
+    			$this->write->error("Pembayaran telah lunas");
+    		}
+
+    		$feedback['data']['type'] 			= 2;
+    		$feedback['data']['payment_key'] 	= $payment_data->payment_key;
+	    	$feedback['data']['amount'] 		= $payment_data->amount;
+	    	$feedback['data']['description'] 	= $payment_data->description;
+			$this->write->feedback($feedback);
+    	} elseif (strpos($input->qr_code, "t") !== false) {
+
     		// Search treasure hunt last date
     		// check treasure number
     		// add database
