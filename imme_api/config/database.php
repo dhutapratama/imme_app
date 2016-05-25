@@ -53,7 +53,7 @@ $db['rufi'] = array(
 	'username' => 'u792852607_imme',
 	'password' => 'immeapps',
 	'database' => 'u792852607_imme',
-	'dbdriver' => 'mysql',
+	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
