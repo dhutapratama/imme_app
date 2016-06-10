@@ -1,10 +1,13 @@
 <?php
-	header("Access-Control-Allow-Methods: GET, OPTIONS, POST, PUT, DELETE");
+    ini_set("expose_php", 0);
+
+    header_remove("X-Powered-By");
+    header('Server: IMME Server 1.0.0');
+	header("Access-Control-Allow-Methods: POST");
 	header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
 	if(isset($_SERVER['HTTP_ORIGIN'])) {
 		header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
 	}
-	header('Access-Control-Allow-Credentials: true');
 	header('Content-Type: application/json');
 
     $tab = "  ";

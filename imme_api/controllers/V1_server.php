@@ -77,8 +77,8 @@ class V1_server extends CI_Controller {
 	}
 
 	public function import_sms() {
-		//$server = "http://rufi.hol.es/v1_server/export_sms";
-		$server = "http://imme.duckdns.org/v1_server/export_sms";
+		$server = "http://rufi.hol.es/v1_server/export_sms";
+		//$server = "http://imme.duckdns.org/v1_server/export_sms";
 
 		$post_data['server_key']    = "sms_server";
 

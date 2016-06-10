@@ -56,7 +56,7 @@ $config['directory_trigger']	= 'd';
 |
 */
 
-$config['log_threshold'] 	= 1;
+$config['log_threshold'] 	= 0;
 $config['encryption_key']	= 'LLd4HvqtvwbEpaRr7L0vWBOQvlVDHUTA';
 
 $config['log_path']				= '';
