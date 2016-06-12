@@ -149,7 +149,7 @@ class V3_customer extends CI_Controller {
 		while ($this->gammu->get_by_id($sms_id)) {
     		sleep(3);
     	}
-*/
+
 
     	$this->load->model("sms");
     	$sms['destination']	= $input->phone;
@@ -160,6 +160,11 @@ class V3_customer extends CI_Controller {
 		while ($this->sms->get_by_processed($sms_id)) {
     		sleep(3);
     	}
+
+    	*/
+
+    	$this->load->library('sms');
+    	$this->sms->send($input->phone, "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!");
 
 		$this->write->feedback();
     }
