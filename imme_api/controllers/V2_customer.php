@@ -143,27 +143,8 @@ class V2_customer extends CI_Controller {
 
 		$customers_data = $this->customers->get_by_id($login_data->customer_id);
 
-/*
-		$this->load->model("gammu");
-		$send['DestinationNumber']	= $input['phone'];
-		$send['TextDecoded']		= "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!";
-		$send['CreatorID']			= "IMME Verifikasi";
-		$sms_id = $this->gammu->send($send);
-
-		while ($this->gammu->get_by_id($sms_id)) {
-    		sleep(3);
-    	}
-*/
-
-    	$this->load->model("sms");
-    	$sms['destination']	= $input['phone'];
-		$sms['text']		= "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!";
-		$sms['status']		= "0";
-		$sms_id = $this->sms->insert($sms);
-
-		while ($this->sms->get_by_processed($sms_id)) {
-    		sleep(3);
-    	}
+		$this->load->library('sms');
+    	$this->sms->send($input->phone, "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!");
 
 		$this->write->feedback();
     }
