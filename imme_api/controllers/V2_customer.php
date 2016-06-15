@@ -144,7 +144,7 @@ class V2_customer extends CI_Controller {
 		$customers_data = $this->customers->get_by_id($login_data->customer_id);
 
 		$this->load->library('sms');
-    	$this->sms->send($input->phone, "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!");
+    	$this->sms->send($input['phone'], "Kode Verifikasi " . $customers_data->phone_verify_code . ". IMME Wallet, Aman dan Simpel!");
 
 		$this->write->feedback();
     }
